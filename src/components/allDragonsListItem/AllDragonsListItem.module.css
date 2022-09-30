@@ -1,0 +1,52 @@
+.listItem {
+    position: relative;
+}
+
+/* .listItem::after{
+content: '';
+position: absolute;
+    display: flex;
+    width: 270px;
+    height: 120px;
+    
+    background-color: blanchedalmond;
+} */
+
+.img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 320px;
+    border-radius: 15px;
+    margin-bottom: 25px;
+}
+
+.addBtn {
+    position: absolute;
+    width: 43px;
+    height: 43px;
+    padding: 10px;
+    border-radius: 25px;
+
+    justify-content: center;
+    display: block;
+    bottom: -10px;
+    right: 35px;
+}
+
+@media screen and (min-width: 768px) {
+    .img {
+        display: inline;
+        margin-bottom: 0;
+    }
+
+    .addBtn {
+        right: -10px;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    .img {
+        width: 400px;
+    }
+}

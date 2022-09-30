@@ -1,0 +1,58 @@
+.container {
+    width: 440px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@media screen and (min-width: 768px) {
+    .container {
+        width: 728px;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    .container {
+        width: 924px;
+    }
+}
+
+.header {
+    position: fixed;
+    display: flex;
+    justify-content: space-between;
+    top: 0;
+    z-index: 20;
+    width: 100%;
+    padding: 20px;
+
+    background: rgb(51, 107, 149);
+    background: linear-gradient(180deg, rgba(51, 107, 149, 1) 63%, rgba(121, 118, 129, 1) 95%);
+}
+
+nav {
+    display: inline;
+}
+
+.navLinkList {
+    display: flex;
+}
+
+.linkItem {
+    margin-right: 30px;
+}
+
+.linkItem:last-child {
+    margin-right: 0;
+}
+
+.registerList {
+    display: flex;
+}
+
+.registerItem {
+    margin-right: 25px;
+}
+
+.registerItem:last-of-type {
+    margin-right: 0;
+}

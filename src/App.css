@@ -1,0 +1,45 @@
+*,
+*::before,
+*::after {
+  -webkit-box-sizing: inherit;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inconsolata', monospace;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 20px;
+  color: #191b19;
+  background: rgb(61, 148, 213);
+  background: radial-gradient(circle,
+      rgba(61, 148, 213, 1) 1%,
+      rgba(50, 45, 64, 0.9472163865546218) 99%);
+  margin-bottom: 150px;
+}
+
+h1,
+h2,
+h3,
+ul,
+p {
+  margin: 0;
+  padding: 0;
+}
+
+ul {
+  list-style: none;
+}
+
+section {
+  margin-top: 85px;
+  background-color: rgba(252, 252, 252, 0.062);
+  padding: 50px 10px;
+  border-radius: 15px;
+  -webkit-box-shadow: 10px 10px 73px -33px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 10px 10px 73px -33px rgba(0, 0, 0, 0.75);
+  box-shadow: 10px 10px 73px -33px rgba(0, 0, 0, 0.75);
+
+
+}

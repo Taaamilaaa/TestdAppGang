@@ -1,0 +1,17 @@
+.sliderContainer {
+    width: 320px;
+    height: 280px;
+    margin: 0 auto;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+@media screen and (min-width: 767px) {
+    .sliderContainer {
+        width: 667px;
+        height: 567px;
+        margin: 0 auto;
+        margin-top: 30px;
+        margin-bottom: 30px;
+    }
+}
