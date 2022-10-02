@@ -1,29 +1,36 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-// const BASE_User_URL = 'https://63354c8b849edb52d6ff0fc2.mockapi.io/dragon/:';
+const initialState = {
+        email: null,
+        token: null,
+        id: null,
+    }
 
-// const userLogin = '/user/login';
-// const userLogout = '/user/logout';
-
-// const userRegister = '/user/register';
-
-// const userCurrent = '/user/current';
-
-const authSlice = createSlice({
-    name: 'auth',
-    initialState: {
-        user: {
-            name: '',
-            email: '',
+const userSlice = createSlice({
+    name: 'user',
+    initialState,
+    reducers: {
+        registerUser(state, action) {
+            state.email = action.payload.email;
+            state.token = action.payload.token;
+            state.id = action.payload.id;
         },
-        token: '',
-        error: null,
-        isLoading: false,
-        isAuth: false,
-
+        setUser(state, action) {
+            state.email = action.payload.email;
+            state.token = action.payload.token;
+            state.id = action.payload.id;
+        },
+        currentUser(state, action) {
+            state.email = action.payload.email;
+            state.token = action.payload.token;
+            state.id = action.payload.id;
+        },
+        removeUser(state) {
+            state.email = null;
+            state.token = null;
+            state.id = null;
+        },
     },
-    reducers:{},
-    extraReducers:{},
 });
-// export const { login, logout, userEdit } = userSlice.actions;
-export default authSlice.reducer;
+export const { registerUser, setUser,currentUser, removeUser } = userSlice.actions;
+export default userSlice.reducer;

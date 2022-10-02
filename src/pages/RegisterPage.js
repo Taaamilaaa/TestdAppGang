@@ -1,39 +1,60 @@
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { Form } from '../components/comon/Form';
-// import { useDispatch } from 'react-redux';
-// import { registerThunk } from '../store/thunk';
-// import { app } from '../index';
+import { useDispatch } from 'react-redux';
+import { registerUser } from '../store/userSlice';
+import { useAuth } from 'hooks/useAuth';
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import { getDatabase, ref, set } from 'firebase/database';
 
-
-
-
-
-import { getAuth } from "firebase/auth";
 
 export function RegisterPage({ getUserData }) {
-    // const navigate = useNavigate();
-    const location = useLocation();
+    const dispatch = useDispatch();
+    const { isAuth } = useAuth();
+    
     
 
-    const fromPage = location.state?.from?.pathname || '/';
-
-    const user = obj => {
        
-        // const { mail, password } = obj;
-       
-        
+    const handleRegister = (e, name, email, password) => {
+        e.preventDefault();
 
+        const auth = getAuth();
+
+        createUserWithEmailAndPassword(auth, email, password)
+            .then(userCredential => {
+                const user = userCredential.user;
+                
+                    dispatch(
+                    registerUser({
+                        email: user.email,
+                        token: user.accessToken,
+                        id: user.uid,
+                    })
+                );
+                Notify.success('You have successfully registered');
+            })
+            .then()
+            .catch(error => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                Notify.failure(`${errorMessage}`);
+            });
+        document.querySelectorAll('input').forEach(el => (el.value = ''));
     };
 
-
-
-
-    
     return (
-        <section>
-            {fromPage}
-            <Form type={'submit'} text={'push'} getUser={user} title={'Register'} />
-        </section>
+        <>
+            {isAuth && <Navigate to="/" />}
+
+            <section>
+                <Form
+                    type={'submit'}
+                    text={'push'}
+                    title={'Register'}
+                    handleClick={handleRegister}                   
+                />
+            </section>
+        </>
     );
 }

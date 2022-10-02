@@ -6,12 +6,13 @@ import { Navigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { addDragon, removeDragon } from '../../store/dragonSlice';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
-
 import styles from './AllDragonsList.module.css';
+import { getDatabase, ref, set, push } from 'firebase/database';
 
 export function AllDragonsList({ dragonReciving }) {
     const [data, setData] = useState([]);
     const [flag, setFlag] = useState(false);
+    const user = useSelector(state => state.user);
 
     const collection = useSelector(state => state.dragons.dragons);
 
@@ -23,11 +24,25 @@ export function AllDragonsList({ dragonReciving }) {
         });
     }, []);
 
+    const addDragonInDB = (data, { id } = user) => {
+        const db = getDatabase();
+        collection.forEach(element => {
+            if (data.id !== element.id) {
+                const dragonsListRef = ref(db, 'users/' + `${id}/` + 'collection/');
+
+                const newDragRef = push(dragonsListRef);
+
+                set(newDragRef, { data });
+            }
+        });
+    };
+
     const addDrag = e => {
         if (e.target.nodeName === 'BUTTON') {
             const resp = data.find(el => el.id === e.target.id);
 
             if (collection.length === 0) {
+                addDragonInDB(resp);
                 dispatch(addDragon(resp));
                 Notify.success(`${resp.name} добавлен в избранные`, {
                     timeout: 1500,
@@ -37,16 +52,17 @@ export function AllDragonsList({ dragonReciving }) {
 
                 if (exist) {
                     Notify.info(`${resp.name} уже был добавлен ранее`, {
-                    timeout: 1500,
-                });
+                        timeout: 1500,
+                    });
 
                     return;
                 } else if (!exist) {
                     const exist = collection.find(el => el.id === resp.id);
+                    addDragonInDB(resp);
                     dispatch(addDragon(resp));
                     Notify.success(`${resp.name} добавлен в избранные`, {
-                    timeout: 1500,
-                });
+                        timeout: 1500,
+                    });
 
                     return;
                 }

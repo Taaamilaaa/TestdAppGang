@@ -1,34 +1,60 @@
 import { Outlet, Link } from 'react-router-dom';
+import { useAuth } from 'hooks/useAuth';
+import { useDispatch } from 'react-redux';
+import { removeUser } from 'store/userSlice';
+
 import styles from './Layout.module.css';
 
 export function Layout() {
-    const auth = false;
+    const { isAuth } = useAuth();
+    const dispatch = useDispatch();
+
     return (
         <>
             <header className={styles.header}>
-                <nav>
-                    <ul className={styles.navLinkList}>
-                        <li className={styles.linkItem}>
-                            <Link to="/">
-                                <h3>StartPage</h3>
-                            </Link>
-                        </li>
-                        {auth && (
-                            <li className={styles.linkItem}>
-                                <Link to="/all">
-                                    <h3>All DRAGONS</h3>
-                                </Link>
-                            </li>
-                        )}
-                    </ul>
-                </nav>
-                {auth && (
-                    <Link to="/collection">
-                        <h3>favorit</h3>
-                    </Link>
+                {isAuth && (
+                    <div className={styles.privatHederContainer}>
+                        <nav>
+                            <ul className={styles.navLinkList}>
+                                <li className={styles.linkItem}>
+                                    <Link to="/">
+                                        <h3>HomePage</h3>
+                                    </Link>
+                                </li>
+
+                                <li className={styles.linkItem}>
+                                    <Link to="/all">
+                                        <h3>More</h3>
+                                    </Link>
+                                </li>
+                                <li className={styles.linkItem}>
+                                    <Link to="/collection">
+                                        <h3>favorit</h3>
+                                    </Link>
+                                </li>
+                            </ul>
+                        </nav>
+                        <div className={styles.manegContainer}>
+                            <button
+                                className={styles.logoutBtn}
+                                onClick={() => dispatch(removeUser())}
+                                type="button"
+                            >
+                                Log out
+                            </button>
+                            <button
+                                className={styles.logoutBtn}
+                                // onClick={() => dispatch(removeUser())}
+                                type="button"
+                            >
+                                Edit
+                            </button>
+                        </div>
+                    </div>
                 )}
-                {!auth && (
-                    <div>
+
+                {!isAuth && (
+                    <nav>
                         <ul className={styles.registerList}>
                             <li className={styles.registerItem}>
                                 <Link to="/register">
@@ -41,7 +67,7 @@ export function Layout() {
                                 </Link>
                             </li>
                         </ul>
-                    </div>
+                    </nav>
                 )}
             </header>
             <main className={styles.container}>

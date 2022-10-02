@@ -56,3 +56,24 @@ nav {
 .registerItem:last-of-type {
     margin-right: 0;
 }
+.privatHederContainer{
+    display: flex;
+
+    
+}
+
+.manegContainer{
+    
+
+
+}
+.logoutBtn {
+
+
+    width: fit-content;
+    height: fit-content;
+    color: white;
+    background-color: transparent;
+border:1px solid white;
+
+}
