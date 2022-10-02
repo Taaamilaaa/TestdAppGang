@@ -41,7 +41,7 @@ function App() {
                         for (const key in element) {
                             if (Object.hasOwnProperty.call(element, key)) {
                                 const dataElement = element[key];
-                                console.log(dataElement);
+                               
                                 data.push(dataElement);
                             }
                         }
@@ -50,7 +50,7 @@ function App() {
 
                 dispatch(getDragonsCollection(data));
             } else if (!snapshot.val()) {
-                console.log('object');
+               
                 return null;
             }
         });
@@ -132,7 +132,7 @@ function App() {
                             index
                             element={
                                 <RequireAuth>
-                                    <HomePage data={data} />
+                                    <HomePage data={data}  mobileView={mobileView} />
                                 </RequireAuth>
                             }
                         />
@@ -152,7 +152,7 @@ function App() {
                             path="all/details"
                             element={
                                 <RequireAuth>
-                                    <DetailsPage dragon={detDrag} />
+                                    <DetailsPage dragon={detDrag}  mobileView={mobileView}/>
                                 </RequireAuth>
                             }
                         />

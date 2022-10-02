@@ -17,8 +17,22 @@ import {
 export function UserCollectionPage() {
     const collection = useSelector(state => state.dragons.dragons);
     const user = useSelector(state => state.user);
-
     const dispatch = useDispatch();
+
+    function updateCollection(key) {
+        const db = getDatabase();
+
+        const newData = null;
+
+        // const newDataKey = push(child(ref(db), 'users/' + `${user.id}/` + 'collection')).key;
+        console.log(key);
+
+        const updates = {};
+        updates['users/' + `${user.id}/` + 'collection/' + key] = newData;
+       
+
+        return update(ref(db), updates);
+    }
 
     const remove = el => {
         const dbRef = ref(getDatabase());
@@ -34,36 +48,18 @@ export function UserCollectionPage() {
                             const element = collection[key];
 
                             if (element.data.id === el.id) {
-                                // const link = `${db}users/${user.id}/collection/${key}`;
-
-                                // const activeKey = push(child(ref(db), 'users/' + `${user.id}/` + 'collection')).key;
-
-                                // remove(dbRef, [('users/' + `${user.id}/` + 'collection') + activeKey]);
-                                // console.log('object');
-
-                                const db = getDatabase();
-
-                                const activeKey = push(
-                                    child(ref(db), 'users/' + `${user.id}/` + 'collection/')
-                                ).key;
-
-                                set(ref(db, 'users/' + `${user.id}/` + 'collection/' + activeKey), null)
-                                    .then(() => {
-                                        console.log('object');
-                                        // Data saved successfully!
-                                    })
-                                    .catch(error => {
-                                        // The write failed...
-                                    });
+                                console.log('object');
+                                updateCollection(key);
+                                dispatch(removeDragon);
+                                Notify.success(`${element.name} удален из избранные`, {
+                    timeout: 1500,
+                });
                             }
                         }
                     }
                 }
             })
             .catch(error => {});
-
-        dispatch(removeDragon(el.id));
-        Notify.info('удалено из избранного');
     };
 
     return (
