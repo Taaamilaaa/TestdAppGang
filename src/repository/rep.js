@@ -21,4 +21,5 @@ const additionInfo = drag => {
     return null
 };
 
-export { additionInfo };
+
+export { additionInfo};

@@ -15,6 +15,7 @@ import { RequireAuth } from './hoc/RequireAuth';
 import { useAuth } from './hooks/useAuth';
 import { currentUser } from 'store/userSlice';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
+
 import { getDragonsCollection } from './store/dragonSlice';
 // import { getDatabase, ref, child, get } from 'firebase/database';
 import { getDatabase, ref, onValue } from 'firebase/database';
@@ -23,40 +24,39 @@ function App() {
     const [data, setData] = useState({});
     const [isLoading, setIsLoading] = useState(false);
     const [detDrag, setDetDrag] = useState({});
-    const dispatch = useDispatch();
-    const { isAuth } = useAuth();
+    const dispatch = useDispatch();    
     const user = useSelector(state => state.user);
 
-    useEffect(() => {
+    const getCollection = () => {
+        let data = [];
         const db = getDatabase();
-
         const collectionRef = ref(db, 'users/' + `${user.id}/` + 'collection');
 
         onValue(collectionRef, snapshot => {
             if (snapshot.val()) {
-                let data = [];
                 for (const key in snapshot.val()) {
                     if (Object.hasOwnProperty.call(snapshot.val(), key)) {
                         const element = snapshot.val()[key];
+                        
                         for (const key in element) {
                             if (Object.hasOwnProperty.call(element, key)) {
+
                                 const dataElement = element[key];
-                               
                                 data.push(dataElement);
                             }
                         }
                     }
                 }
-
                 dispatch(getDragonsCollection(data));
             } else if (!snapshot.val()) {
-               
-                return null;
+                dispatch(getDragonsCollection(data));
             }
         });
-    })
+    };
 
-  
+    useEffect(() => {
+        getCollection();
+    });
 
     useEffect(() => {
         const auth = getAuth();
@@ -72,7 +72,6 @@ function App() {
                 );
             }
         });
-        
     }, []);
 
     useEffect(() => {
@@ -132,7 +131,7 @@ function App() {
                             index
                             element={
                                 <RequireAuth>
-                                    <HomePage data={data}  mobileView={mobileView} />
+                                    <HomePage data={data} mobileView={mobileView} />
                                 </RequireAuth>
                             }
                         />
@@ -144,6 +143,7 @@ function App() {
                                     <DragonsPage
                                         detDrag={detDrag}
                                         dragonReciving={dragonReciving}
+                                        getCollection = {getCollection}
                                     />
                                 </RequireAuth>
                             }
@@ -152,7 +152,7 @@ function App() {
                             path="all/details"
                             element={
                                 <RequireAuth>
-                                    <DetailsPage dragon={detDrag}  mobileView={mobileView}/>
+                                    <DetailsPage dragon={detDrag} mobileView={mobileView} />
                                 </RequireAuth>
                             }
                         />
@@ -160,7 +160,7 @@ function App() {
                             path="collection"
                             element={
                                 <RequireAuth>
-                                    <UserCollectionPage />
+                                    <UserCollectionPage getCollection = {getCollection} />
                                 </RequireAuth>
                             }
                         />

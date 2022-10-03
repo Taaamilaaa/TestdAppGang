@@ -7,15 +7,14 @@ import { useDispatch } from 'react-redux';
 import { addDragon, removeDragon } from '../../store/dragonSlice';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import styles from './AllDragonsList.module.css';
-import { getDatabase, ref, set, push } from 'firebase/database';
+import { getDatabase, ref, set, push, onValue } from 'firebase/database';
+import { getDragonsCollection } from '../../store/dragonSlice';
 
-export function AllDragonsList({ dragonReciving }) {
+export function AllDragonsList({ dragonReciving, getCollection}) {
     const [data, setData] = useState([]);
     const [flag, setFlag] = useState(false);
     const user = useSelector(state => state.user);
-
     const collection = useSelector(state => state.dragons.dragons);
-
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -24,17 +23,56 @@ export function AllDragonsList({ dragonReciving }) {
         });
     }, []);
 
+    // const getCollection = () => {
+    //     const db = getDatabase();
+
+    //     const collectionRef = ref(db, 'users/' + `${user.id}/` + 'collection');
+
+    //     onValue(collectionRef, snapshot => {
+    //         if (snapshot.val()) {
+    //             let data = [];
+    //             for (const key in snapshot.val()) {
+    //                 if (Object.hasOwnProperty.call(snapshot.val(), key)) {
+    //                     const element = snapshot.val()[key];
+    //                     for (const key in element) {
+    //                         if (Object.hasOwnProperty.call(element, key)) {
+    //                             const dataElement = element[key];
+
+    //                             data.push(dataElement);
+    //                         }
+    //                     }
+    //                 }
+    //             }
+
+    //             dispatch(getDragonsCollection(data));
+    //         } else if (!snapshot.val()) {
+    //             return null;
+    //         }
+    //     });
+    // };
+
     const addDragonInDB = (data, { id } = user) => {
         const db = getDatabase();
-        collection.forEach(element => {
-            if (data.id !== element.id) {
-                const dragonsListRef = ref(db, 'users/' + `${id}/` + 'collection/');
+        const dragonsListRef = ref(db, 'users/' + `${id}/` + 'collection/');
+        if (collection.length === 0) {
+            const newDragRef = push(dragonsListRef);
 
-                const newDragRef = push(dragonsListRef);
+            set(newDragRef, { data });
+            Notify.success(`${data.name} добавлен в избранные`, {
+                timeout: 1500,
+            });
+        } else if (collection.length !== 0) {
+            collection.forEach(element => {
+                if (data.id !== element.id) {
+                    const newDragRef = push(dragonsListRef);
 
-                set(newDragRef, { data });
-            }
-        });
+                    set(newDragRef, { data });
+                    Notify.success(`${data.name} добавлен в избранные`, {
+                        timeout: 1500,
+                    });
+                }
+            });
+        }
     };
 
     const addDrag = e => {
@@ -42,11 +80,11 @@ export function AllDragonsList({ dragonReciving }) {
             const resp = data.find(el => el.id === e.target.id);
 
             if (collection.length === 0) {
+                
                 addDragonInDB(resp);
-                dispatch(addDragon(resp));
-                Notify.success(`${resp.name} добавлен в избранные`, {
-                    timeout: 1500,
-                });
+                getCollection();
+
+                // dispatch(addDragon(resp));
             } else if (collection.length !== 0) {
                 const exist = collection.find(el => el.id === resp.id);
 
@@ -54,15 +92,15 @@ export function AllDragonsList({ dragonReciving }) {
                     Notify.info(`${resp.name} уже был добавлен ранее`, {
                         timeout: 1500,
                     });
-
-                    return;
                 } else if (!exist) {
-                    const exist = collection.find(el => el.id === resp.id);
+                    // const exist = collection.find(el => el.id === resp.id);
                     addDragonInDB(resp);
-                    dispatch(addDragon(resp));
-                    Notify.success(`${resp.name} добавлен в избранные`, {
-                        timeout: 1500,
-                    });
+                    getCollection();
+
+                    // dispatch(addDragon(resp));
+                    // Notify.success(`${resp.name} добавлен в избранные`, {
+                    //     timeout: 1500,
+                    // });
 
                     return;
                 }

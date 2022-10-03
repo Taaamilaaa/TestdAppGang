@@ -1,59 +1,81 @@
+import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { removeDragon } from '../store/dragonSlice';
 import { ImageSlider } from '../components/imageSlider/ImageSlider';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
-import {
-    getDatabase,
-    get,
-    child,
-    ref,
-    set,
-    remove,
-    push,
-    onValue,
-    update,
-} from 'firebase/database';
+import { getDatabase, get, child, ref, onValue, update } from 'firebase/database';
+import { getDragonsCollection } from '../store/dragonSlice';
 
-export function UserCollectionPage() {
+export function UserCollectionPage({getCollection}) {
+    const [flag, setFlag] = useState(false);
     const collection = useSelector(state => state.dragons.dragons);
     const user = useSelector(state => state.user);
     const dispatch = useDispatch();
 
+    useEffect(() => {
+        if (collection.length === 0) {
+            setFlag(true);
+        }
+    }, [collection]);
+
+    // const getCollection = () => {
+    //     const db = getDatabase();
+
+    //     const collectionRef = ref(db, 'users/' + `${user.id}/` + 'collection');
+
+    //     onValue(collectionRef, snapshot => {
+    //         let data = [];
+
+    //         if (snapshot.val()) {
+    //             for (const key in snapshot.val()) {
+    //                 if (Object.hasOwnProperty.call(snapshot.val(), key)) {
+    //                     const element = snapshot.val()[key];
+    //                     for (const key in element) {
+    //                         if (Object.hasOwnProperty.call(element, key)) {
+    //                             const dataElement = element[key];
+
+    //                             data.push(dataElement);
+    //                         }
+    //                     }
+    //                 }
+    //             }
+    //             dispatch(getDragonsCollection(data));
+
+    //         } else if (!snapshot.val()) {
+
+    //             dispatch(getDragonsCollection(data));
+    //         }
+    //     });
+    // };
+
     function updateCollection(key) {
         const db = getDatabase();
-
         const newData = null;
-
-        // const newDataKey = push(child(ref(db), 'users/' + `${user.id}/` + 'collection')).key;
-        console.log(key);
-
         const updates = {};
+
         updates['users/' + `${user.id}/` + 'collection/' + key] = newData;
-       
 
         return update(ref(db), updates);
     }
 
     const remove = el => {
         const dbRef = ref(getDatabase());
-        const db = getDatabase();
 
         get(child(dbRef, 'users/' + `${user.id}/` + 'collection'))
             .then(snapshot => {
                 if (snapshot.exists()) {
-                    const collection = snapshot.val();
-
-                    for (const key in collection) {
-                        if (Object.hasOwnProperty.call(collection, key)) {
-                            const element = collection[key];
+                    for (const key in snapshot.val()) {
+                        if (Object.hasOwnProperty.call(snapshot.val(), key)) {
+                            const element = snapshot.val()[key];
 
                             if (element.data.id === el.id) {
-                                console.log('object');
                                 updateCollection(key);
-                                dispatch(removeDragon);
+
+                                getCollection();
+
                                 Notify.success(`${element.name} удален из избранные`, {
-                    timeout: 1500,
-                });
+                                    timeout: 1500,
+                                });
                             }
                         }
                     }
@@ -66,7 +88,7 @@ export function UserCollectionPage() {
         <>
             <h1 style={{ marginTop: '150px' }}>UserCollectionPage </h1>
 
-            {collection.length === 0 && <h2>blank</h2>}
+            {flag && <h2>blank</h2>}
             {collection.length !== 0 && (
                 <>
                     {collection.map((el, index) => {

@@ -2,45 +2,13 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 // import { getDatabase, ref, child, get, onValue } from 'firebase/database';
 // import { useSelector } from 'react-redux';
 
-// export const fetchCollection = createAsyncThunk(
-//     'dragons/fetchCollection',
-//     async function () {
+export const fetchMainDragon = createAsyncThunk('dragons/fetchMainDragon', async function () {
+    const response = await fetch('https://api.spacexdata.com/v4/dragons/5e9d058759b1ff74a7ad5f8f');
 
-//         const user = useSelector(state => state.user)
-//         console.log(user);
-//         const db = getDatabase();
-//         const collectionRef = ref(db, 'users/' + `${user.id}/` + 'collection');
+    const data = await response.json();
 
-
-//         onValue(collectionRef, snapshot => {
-           
-//             if (snapshot.val()) {
-               
-//                 let response = []
-//                 for (const key in snapshot.val()) {
-//                     if (Object.hasOwnProperty.call(snapshot.val(), key)) {
-
-//                         const element = snapshot.val()[key];
-
-//                         for (const key in element) {
-
-//                             if (Object.hasOwnProperty.call(element, key)) {
-//                                 const dataElement = element[key];
-//                                 response.push(dataElement)
-
-//                             }
-//                         }
-//                     }
-//                 }
-//                 console.log(response);
-//                 return response
-          
-//             }
-//         });
-  
-       
-          
-// });
+    return data;
+});
 
 const dragonSlice = createSlice({
     name: 'dragon',
@@ -57,29 +25,23 @@ const dragonSlice = createSlice({
             state.dragons = state.dragons.filter(dragon => dragon.id !== action.payload);
         },
         getDragonsCollection(state, action) {
-            
             state.dragons = action.payload;
         },
     },
-    // extraReducers: {
-    //     [fetchCollection.pending]: (state, action) => {
-    //         console.log('pending',action);
-
-    //         state.status = 'isLoading';
-    //         state.error = null;
-    //     },
-    //     [fetchCollection.fulfilled]: (state, action) => {
-    //         console.log('fulfilled', action);
-
-    //         state.status = 'isLoading';
-    //         state.dragons = action.payload;
-    //         state.error = null;
-    //     },
-    //     [fetchCollection.rejected]: (state, action) => {
-    //         console.log('rejected', action);
-    //         state.error = action.payload;
-    //     },
-    // },
+    extraReducers: {
+        [fetchMainDragon.pending]: (state) => {
+            state.status = 'pending';
+            state.error = null;
+        },
+        [fetchMainDragon.fulfilled]: (state, action) => {
+            state.status = 'resolved';
+            state.dragons = action.payload;
+            state.error = null;
+        },
+        [fetchMainDragon.rejected]: (state, action) => {
+            state.error = action.payload;
+        },
+    },
 });
 
 export const { addDragon, removeDragon, getDragonsCollection } = dragonSlice.actions;
