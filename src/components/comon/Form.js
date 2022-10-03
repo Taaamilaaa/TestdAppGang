@@ -4,28 +4,18 @@ import styles from './Form.module.css';
 import { Button } from './Button';
 
 export function Form({title, type, text, handleClick}) {
-    const [name, setName] = useState('');
+   
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
    
     return (
-        <form onSubmit={(e) =>handleClick(e,name,email,password)}>
+        <form onSubmit={(e) =>handleClick(e,email,password)}>
             <h1>{title}</h1>
-            <div className={styles.inputContainer}>
-                {/* <input
-                    type="text"
-                    name="name"
-                    value = {name}
-                    placeholder="name"
-                    pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-                    required
-                    onChange={(e)=> setName(e.target.value)}
-                /> */}
+            <div className={styles.inputContainer}>               
                
                 <input
                     name="email"
-                    type="email"
-                    // value = {email}
+                    type="email"                   
                     placeholder="e-mail"
                     required
                     onChange={(e)=>setEmail(e.target.value)}
@@ -33,8 +23,7 @@ export function Form({title, type, text, handleClick}) {
                 
                 <input
                     name="password"
-                    type="password"
-                    // value={password}
+                    type="password"                    
                     placeholder="password"
                     required
                     onChange={(e)=>setPassword(e.target.value)}

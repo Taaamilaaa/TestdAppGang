@@ -4,19 +4,13 @@ import { useDispatch } from 'react-redux';
 import { registerUser } from '../store/userSlice';
 import { useAuth } from 'hooks/useAuth';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
-
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
-import { getDatabase, ref, set } from 'firebase/database';
 
 
-export function RegisterPage({ getUserData }) {
+function RegisterPage({ getUserData }) {
     const dispatch = useDispatch();
     const { isAuth } = useAuth();
-    
-    
-
-       
-    const handleRegister = (e, name, email, password) => {
+    const handleRegister = (e, email, password) => {
         e.preventDefault();
 
         const auth = getAuth();
@@ -35,8 +29,7 @@ export function RegisterPage({ getUserData }) {
                 Notify.success('You have successfully registered');
             })
             .then()
-            .catch(error => {
-                const errorCode = error.code;
+            .catch(error => {               
                 const errorMessage = error.message;
                 Notify.failure(`${errorMessage}`);
             });
@@ -58,3 +51,4 @@ export function RegisterPage({ getUserData }) {
         </>
     );
 }
+export default RegisterPage;

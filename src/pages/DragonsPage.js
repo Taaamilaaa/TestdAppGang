@@ -1,6 +1,6 @@
 import { AllDragonsList } from '../components/allDragonsList/AllDragonsList';
 
-export function DragonsPage({dragonReciving, detDrag }) {
+function DragonsPage({dragonReciving, detDrag }) {
 
     return (
         <>
@@ -11,3 +11,4 @@ export function DragonsPage({dragonReciving, detDrag }) {
         </>
     );
 }
+export default DragonsPage;

@@ -6,8 +6,7 @@ import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { useAuth } from 'hooks/useAuth';
 import { Notify } from 'notiflix';
 
-export function LoginPage({ }) {   
-   
+function LoginPage() {     
     const { isAuth } = useAuth();
     const dispatch = useDispatch();
    
@@ -15,7 +14,6 @@ export function LoginPage({ }) {
         e.preventDefault();
 
         const auth = getAuth();
-
         signInWithEmailAndPassword(auth, email, password)
             .then(userCredential => {
                 const user = userCredential.user;
@@ -30,7 +28,7 @@ export function LoginPage({ }) {
 
             })
             .catch(error => {
-                const errorCode = error.code;
+                
                 const errorMessage = error.message;
                 Notify.failure(`${errorMessage}`)
             });
@@ -53,3 +51,4 @@ export function LoginPage({ }) {
         
     );
 }
+export default LoginPage;

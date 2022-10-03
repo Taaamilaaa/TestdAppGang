@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from "./ImageSlider.module.css"
 
-export function ImageSlider({ slides }) {
+export function ImageSlider({ slides }) {    
     const [currentIndex, setCurrentIndex] = useState(0);
     const sliderStyles = {
         height: '100%',
@@ -47,6 +47,8 @@ export function ImageSlider({ slides }) {
         cursor: 'pointer',
         color:'#3c3e549f',
     };
+
+   
 
     const goToPrev = () => {
         const isFirstSlide = currentIndex === 0;

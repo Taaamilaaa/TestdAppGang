@@ -1,49 +1,57 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-// import { getDatabase, ref, child, get, onValue } from 'firebase/database';
-// import { useSelector } from 'react-redux';
 
-export const fetchMainDragon = createAsyncThunk('dragons/fetchMainDragon', async function () {
-    const response = await fetch('https://api.spacexdata.com/v4/dragons/5e9d058759b1ff74a7ad5f8f');
+export const fetchMainDragonfromAPI = createAsyncThunk(
+    'dragons/fetchMainDragon',
+    async function (_, { rejectWithValue }) {
+        try {
+            const response = await fetch(
+                'https://api.spacexdata.com/v4/dragons/5e9d058759b1ff74a7ad5f8f'
+            );
+            if (!response.ok) {
+                throw new Error('Server Error!');
+            }
+            const data = await response.json();
 
-    const data = await response.json();
-
-    return data;
-});
+            return data;
+        } catch (error) {
+            return rejectWithValue(error.message);
+        }
+    }
+);
 
 const dragonSlice = createSlice({
-    name: 'dragon',
+    name: 'dragons',
     initialState: {
+        data: [],
         dragons: [],
-        status: null,
+        isLoading: false,
+       
         error: null,
     },
+
     reducers: {
-        addDragon(state, action) {
-            state.dragons.push(action.payload);
-        },
-        removeDragon(state, action) {
-            state.dragons = state.dragons.filter(dragon => dragon.id !== action.payload);
-        },
         getDragonsCollection(state, action) {
-            state.dragons = action.payload;
+         state.dragons = action.payload;
         },
     },
+
     extraReducers: {
-        [fetchMainDragon.pending]: (state) => {
-            state.status = 'pending';
+        [fetchMainDragonfromAPI.pending]: state => {
+            state.isLoading = true;            
             state.error = null;
         },
-        [fetchMainDragon.fulfilled]: (state, action) => {
-            state.status = 'resolved';
-            state.dragons = action.payload;
+        [fetchMainDragonfromAPI.fulfilled]: (state, action) => {
+            state.isLoading = false;
+            state.data = action.payload;
             state.error = null;
         },
-        [fetchMainDragon.rejected]: (state, action) => {
+        [fetchMainDragonfromAPI.rejected]: (state, action) => {
             state.error = action.payload;
+            state.isLoading = false;
         },
     },
 });
 
-export const { addDragon, removeDragon, getDragonsCollection } = dragonSlice.actions;
+export const { getDragonsCollection } = dragonSlice.actions;
 
 export default dragonSlice.reducer;
