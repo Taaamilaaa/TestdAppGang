@@ -1,7 +1,10 @@
-import { useEffect, useState } from 'react';
-import styles from "./ImageSlider.module.css"
+import { useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import styles from './ImageSlider.module.css';
 
-export function ImageSlider({ slides }) {    
+export function ImageSlider({ slides }) {
+    const location = useLocation();
+
     const [currentIndex, setCurrentIndex] = useState(0);
     const sliderStyles = {
         height: '100%',
@@ -24,7 +27,7 @@ export function ImageSlider({ slides }) {
         fontSize: '45px',
         zIndex: 1,
         cursor: 'pointer',
-        color:'#3c3e549f',
+        color: 'white',
     };
     const rightArrowStyles = {
         position: 'absolute',
@@ -34,7 +37,7 @@ export function ImageSlider({ slides }) {
         fontSize: '45px',
         zIndex: 1,
         cursor: 'pointer',
-        color:'#3c3e549f',
+        color: 'white',
     };
     const dotsContainerStyles = {
         display: 'flex',
@@ -45,10 +48,8 @@ export function ImageSlider({ slides }) {
         fontWeight: '800',
         margin: '0 5px',
         cursor: 'pointer',
-        color:'#3c3e549f',
+        color: 'white',
     };
-
-   
 
     const goToPrev = () => {
         const isFirstSlide = currentIndex === 0;
@@ -63,10 +64,17 @@ export function ImageSlider({ slides }) {
     const goToSlide = slideIndex => {
         setCurrentIndex(slideIndex);
     };
-    
+
     return (
         <>
-            <div className={styles.sliderContainer}>
+            <div
+                id="slider"
+                className={
+                    location.pathname === '/collection'
+                        ? styles.collectionSliderContainer
+                        : styles.sliderContainer
+                }
+            >
                 <div style={sliderStyles}>
                     <div style={leftArrowStyles} onClick={goToPrev}>
                         ❰

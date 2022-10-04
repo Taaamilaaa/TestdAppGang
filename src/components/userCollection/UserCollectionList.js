@@ -5,16 +5,16 @@ import { getDatabase, get, child, ref, update, onValue } from 'firebase/database
 import { useDispatch } from 'react-redux';
 import { getDragonsCollection } from 'store/dragonSlice';
 import { ImageSlider } from 'components/imageSlider/ImageSlider';
-import { Description } from 'components/description/Description';
 import { additionInfo } from '../../repository/rep';
+import { useState } from 'react';
 
 export function UserCollectionList() {
+    const [showDescr, setShowDescr] = useState(false);
     const collection = useSelector(state => state.dragons.dragons);
     const dispatch = useDispatch();
     const user = useSelector(state => state.user);
 
     function updateCollection(key) {
-        console.log(key);
         const db = getDatabase();
 
         const newData = null;
@@ -70,23 +70,23 @@ export function UserCollectionList() {
 
     return (
         <>
-            <ul>
+            <h1>Favorites</h1>
+            <ul className={styles.wrap}>
                 {collection.map((el, index) => {
                     const { data } = el.data;
                     const additionParam = additionInfo(data);
                     return (
                         <>
                             <li key={index} className={styles.container}>
-                                <div>
-                                    <h2>{data.name}</h2>
-                                    <div>
-                                        <Description
-                                        name={data.name}
-                                        link={data.wikipedia}
-                                        additionParam={additionParam}
-                                    />
+                                <div className={styles.cardContainer}>
                                     <div className={styles.imgContainer}>
-                                        <img className={styles.img} alt = {data.name} src={data.flickr_images[1]} />
+                                        {/* <div className={styles.imgContainer}> */}
+                                        <h2 className={styles.title}>{data.name}</h2>
+                                        <img
+                                            className={styles.img}
+                                            alt={data.name}
+                                            src={data.flickr_images[1]}
+                                        />
                                         <button
                                             className={styles.delBtn}
                                             type="button"
@@ -95,11 +95,43 @@ export function UserCollectionList() {
                                         >
                                             -
                                         </button>
+                                        {/* </div> */}
                                     </div>
-                                    </div>
-                                    
                                 </div>
-                                <ImageSlider slides={data.flickr_images} />
+
+                                <div className={styles.flexContainer}>
+                                    <ImageSlider slides={data.flickr_images} />
+                                    <div className={styles.infoCard}>
+                                        <h4 className={styles.infoTitle}>Info:</h4>
+                                        <ul className={styles.addParamContainer}>
+                                            {additionParam.map((el, index) => {
+                                                return (
+                                                    <>
+                                                        <li key={index}>
+                                                            <p>
+                                                                {el.title}: {el.param}
+                                                            </p>
+                                                        </li>
+                                                    </>
+                                                );
+                                            })}
+                                            <li className={styles.link}>
+                                                <a href={el.wikipedia}>More info</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <h4
+                                    className={styles.description}
+                                    onClick={() => setShowDescr(!showDescr)}
+                                >
+                                    Add descriptions ▼
+                                </h4>
+                                {showDescr && (
+                                    <div key={index} className={styles.descriptionCard}>
+                                        <p>{data.description}</p>
+                                    </div>
+                                )}
                             </li>
                         </>
                     );

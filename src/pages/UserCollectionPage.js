@@ -1,34 +1,24 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import {UserCollectionList} from '../components/userCollection/UserCollectionList'
+import { UserCollectionList } from '../components/userCollection/UserCollectionList';
+import { UserHaveNotCollection } from '../components/userCollection/UserHaveNotCollection';
 
-function UserCollectionPage({getCollection}) {
+function UserCollectionPage({ getCollection }) {
     const [flag, setFlag] = useState(false);
     const collection = useSelector(state => state.dragons.dragons);
-    
-  
+
     useEffect(() => {
         if (collection.length === 0) {
             setFlag(true);
         }
-    }, [collection]);   
+    }, [collection]);
 
-    
     return (
         <>
             <section>
-               
-
-            {flag && <h2>blank</h2>}
-            {collection.length !== 0 && (
-                <>
-                    
-                    <UserCollectionList/>
- 
-                </>
-            )}
+                <UserCollectionList />
+                {flag && <UserHaveNotCollection />}
             </section>
-           
         </>
     );
 }

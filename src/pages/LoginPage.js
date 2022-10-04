@@ -6,10 +6,10 @@ import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { useAuth } from 'hooks/useAuth';
 import { Notify } from 'notiflix';
 
-function LoginPage() {     
+function LoginPage() {
     const { isAuth } = useAuth();
     const dispatch = useDispatch();
-   
+
     const handleLogin = (e, name, email, password) => {
         e.preventDefault();
 
@@ -24,31 +24,22 @@ function LoginPage() {
                         id: user.uid,
                     })
                 );
-                document.querySelectorAll('input').forEach(el=>el.value = '')
-
+                document.querySelectorAll('input').forEach(el => (el.value = ''));
             })
             .catch(error => {
-                
                 const errorMessage = error.message;
-                Notify.failure(`${errorMessage}`)
+                Notify.failure(`${errorMessage}`);
             });
     };
 
     return (
         <>
-            {isAuth && <Navigate to='/' />}
-            
-            <section>          
-            <Form
-                title={'LOGIN'}
-                type={'submit'}
-                text={'click'}
-                handleClick={handleLogin}
-                
-            />
-        </section>
+            {isAuth && <Navigate to="/" />}
+
+            <section>
+                <Form title={'LOGIN'} type={'submit'} text={'click'} handleClick={handleLogin} />
+            </section>
         </>
-        
     );
 }
 export default LoginPage;

@@ -4,7 +4,6 @@ import { fetchMainDragonfromAPI } from './store/dragonSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import useWindowDimensions from './hooks/getWindowDimensions';
 import { Route, Routes } from 'react-router-dom';
-
 import { Layout } from './components/layout/Layout';
 
 import { RequireAuth } from './hoc/RequireAuth';

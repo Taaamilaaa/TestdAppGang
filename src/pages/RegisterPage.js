@@ -6,7 +6,6 @@ import { useAuth } from 'hooks/useAuth';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 
-
 function RegisterPage({ getUserData }) {
     const dispatch = useDispatch();
     const { isAuth } = useAuth();
@@ -14,12 +13,11 @@ function RegisterPage({ getUserData }) {
         e.preventDefault();
 
         const auth = getAuth();
-
         createUserWithEmailAndPassword(auth, email, password)
             .then(userCredential => {
                 const user = userCredential.user;
-                
-                    dispatch(
+
+                dispatch(
                     registerUser({
                         email: user.email,
                         token: user.accessToken,
@@ -29,7 +27,7 @@ function RegisterPage({ getUserData }) {
                 Notify.success('You have successfully registered');
             })
             .then()
-            .catch(error => {               
+            .catch(error => {
                 const errorMessage = error.message;
                 Notify.failure(`${errorMessage}`);
             });
@@ -39,13 +37,12 @@ function RegisterPage({ getUserData }) {
     return (
         <>
             {isAuth && <Navigate to="/" />}
-
             <section>
                 <Form
                     type={'submit'}
                     text={'push'}
                     title={'Register'}
-                    handleClick={handleRegister}                   
+                    handleClick={handleRegister}
                 />
             </section>
         </>

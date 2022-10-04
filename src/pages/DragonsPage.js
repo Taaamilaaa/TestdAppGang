@@ -1,13 +1,11 @@
 import { AllDragonsList } from '../components/allDragonsList/AllDragonsList';
 
-function DragonsPage({dragonReciving, detDrag }) {
-
+function DragonsPage({ dragonReciving, detDrag }) {
     return (
         <>
-            <AllDragonsList
-                dragonReciving={dragonReciving}
-                detDrag={detDrag}
-            />
+            <section>
+                <AllDragonsList dragonReciving={dragonReciving} detDrag={detDrag} />
+            </section>
         </>
     );
 }

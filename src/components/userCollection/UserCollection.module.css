@@ -1,40 +1,155 @@
-.container{
-    background-color: #fff;
+.container {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.678); 
+  
+    padding-bottom: 50px;
 }
-.imgContainer{
+
+.container:not(:first-child) {
+    padding-top: 50px;
+ 
+}
+
+.imgContainer {
     position: relative;
+    margin-left: auto;
+    margin-right: auto;
+    width: fit-content;
+    text-align: center;
+}
+
+.addParamContainer {
+    display: block;
+    width: fit-content;    
+}
+
+.flexContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    margin-bottom: 50px;
+}
+
+.cardContainer {
     width: fit-content;
     margin-left: auto;
     margin-right: auto;
+    margin-bottom: 50px;
+    padding: 35px;
+    border-radius: 15px;
+    background-color: rgba(172, 177, 174, 0.151);
+    transition: all 0.5s ease;
 }
-.img{
-    
-    display: block;
-        margin-left: auto;
-        margin-right: auto;
-        width: 320px;
+
+.cardContainer:hover {
+    transform: scale(1.15);
+    -webkit-box-shadow: 10px 10px 73px -33px rgba(0, 0, 0, 0.75);
+        -moz-box-shadow: 10px 10px 73px -33px rgba(0, 0, 0, 0.75);
+        box-shadow: 10px 10px 73px -33px rgba(0, 0, 0, 0.75);
+    transition: all 0.5s ease;
+}
+
+.wrap>.container:nth-child(3n)>.flexContainer,
+.wrap>.container:nth-child(3n-1)>.flexContainer {
+    flex-direction: row-reverse;
+}
+
+.title {
+    margin-bottom: 20px;
+}
+
+.infoTitle {
+    color: white;
+    margin-bottom: 15px;
+    text-shadow: 1px 1px 2px black;
+}
+.infoCard{
+    height: fit-content;
+    padding: 35px;
+    border-radius: 15px;
+    background-color: rgba(172, 177, 174, 0.151);
+}
+.descriptionCard{
+    height: fit-content;
+        padding: 35px;
         border-radius: 15px;
-        margin-bottom: 25px;
+        background-color: rgba(172, 177, 174, 0.151);
 }
-.delBtn{
+
+.link{
+    text-align: center;
+    color:#fff;
+    margin-top: 25px;
+    cursor: pointer;
+    transition: all 0.5s ease;
+}
+.link:hover,
+.link:focus{
+    transform: scale(1.15);
+   
+    text-shadow: 1px 1px 2px black;
+    transition: all 0.5s ease;
+
+}
+
+.img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 320px;
+    border-radius: 15px;
+    margin-bottom: 25px;
+}
+
+.delBtn {
+    font-size: 26px;
     position: absolute;
     width: 43px;
     height: 43px;
     padding: 10px;
     border-radius: 25px;
-
+    border-bottom: 18px solid rgba(240, 108, 108, 0.678);
     justify-content: center;
     display: block;
     bottom: -10px;
-    right: 35px;
+    right: -10px;
+    transition: all 0.5s ease;
+}
+
+.delBtn:hover,
+.delBtn:focus {
+    transform: scale(1.15);
+    background-color: rgb(197, 61, 61);
+    color: white;
+
+    transition: all 0.5s ease;
+}
+.description{
+    color: white;
+        margin-bottom: 15px;
+        text-shadow: 1px 1px 2px black;
+        cursor: pointer;
+        text-align: center;
+
+}
+.text{
+    font-size: 24px;
+    text-align: center;
 }
 
 @media screen and (min-width: 768px) {
-    .imgContainer {
-    margin-left: 0;
-        margin-right: 0;
-    }
-
+   .container{
+    padding: 0 30px;
+    padding-bottom: 50px;
+   }
+   .infoCard {
+      
+       width: fit-content;
+      
+   }
+   
+   .flexContainer{
+    align-items: center;
+   }
     .addBtn {
         right: -10px;
     }
@@ -44,4 +159,8 @@
     .img {
         width: 400px;
     }
+        .flexContainer {
+            flex-direction: row;
+    
+        }
 }

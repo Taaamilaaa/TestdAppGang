@@ -1,9 +1,11 @@
 import { MainDragonSection } from '../components/mainDragonSection/MainDragonSection';
 
- function HomePage({ data, mobileView }) {
+function HomePage({ data, mobileView }) {
     return (
         <>
-            <MainDragonSection data={data} mobileView={mobileView} />
+            <section>
+                <MainDragonSection data={data} mobileView={mobileView} />
+            </section>
         </>
     );
 }

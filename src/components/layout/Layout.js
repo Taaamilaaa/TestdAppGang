@@ -34,22 +34,13 @@ export function Layout() {
                                 </li>
                             </ul>
                         </nav>
-                        <div className={styles.manegContainer}>
-                            <button
-                                className={styles.logoutBtn}
-                                onClick={() => dispatch(removeUser())}
-                                type="button"
-                            >
-                                Log out
-                            </button>
-                            <button
-                                className={styles.logoutBtn}
-                                // onClick={() => dispatch(removeUser())}
-                                type="button"
-                            >
-                                Edit
-                            </button>
-                        </div>
+                        <button
+                            className={styles.logoutBtn}
+                            onClick={() => dispatch(removeUser())}
+                            type="button"
+                        >
+                            Log out
+                        </button>
                     </div>
                 )}
 
