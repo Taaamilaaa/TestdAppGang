@@ -1,8 +1,8 @@
-import { Outlet, Link } from 'react-router-dom';
-import { useAuth } from 'hooks/useAuth';
+import { Outlet} from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { removeUser } from 'store/userSlice';
-
+import { useAuth } from 'hooks/useAuth';
+import { CustomLink } from 'components/comon/CustomLink';
 import styles from './Layout.module.css';
 
 export function Layout() {
@@ -17,20 +17,20 @@ export function Layout() {
                         <nav>
                             <ul className={styles.navLinkList}>
                                 <li className={styles.linkItem}>
-                                    <Link to="/">
-                                        <h3>HomePage</h3>
-                                    </Link>
+                                    <CustomLink to="/">
+                                        <h3>HOME</h3>
+                                    </CustomLink>
                                 </li>
 
                                 <li className={styles.linkItem}>
-                                    <Link to="/all">
-                                        <h3>More</h3>
-                                    </Link>
+                                    <CustomLink  to="all">
+                                        <h3>MORE</h3>
+                                    </CustomLink>
                                 </li>
                                 <li className={styles.linkItem}>
-                                    <Link to="/collection">
-                                        <h3>favorit</h3>
-                                    </Link>
+                                    <CustomLink  to="collection">
+                                        <h3>FAVORITES</h3>
+                                    </CustomLink>
                                 </li>
                             </ul>
                         </nav>
@@ -48,14 +48,14 @@ export function Layout() {
                     <nav>
                         <ul className={styles.registerList}>
                             <li className={styles.registerItem}>
-                                <Link to="/register">
-                                    <h3>register</h3>
-                                </Link>
+                                <CustomLink to="/register">
+                                    <h3>REGISTER</h3>
+                                </CustomLink>
                             </li>
                             <li className={styles.registerItem}>
-                                <Link to="/login">
-                                    <h3>login</h3>
-                                </Link>
+                                <CustomLink to="/login">
+                                    <h3>LOGIN</h3>
+                                </CustomLink>
                             </li>
                         </ul>
                     </nav>

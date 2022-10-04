@@ -116,7 +116,7 @@ export function UserCollectionList() {
                                                 );
                                             })}
                                             <li className={styles.link}>
-                                                <a href={el.wikipedia}>More info</a>
+                                                <a href={data.wikipedia} target = 'blank' className={styles.wikiLink}>More info</a>
                                             </li>
                                         </ul>
                                     </div>

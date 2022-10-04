@@ -3,8 +3,7 @@
     transition: all 0.5s ease;
 }
 
-.listItem:hover,
-.listItem:focus {
+.listItem:hover {
     transform: scale(1.1);
     transition: all 0.5s ease;
 }
@@ -16,6 +15,7 @@
     width: 320px;
     border-radius: 15px;
     margin-bottom: 25px;
+    cursor: pointer;
 }
 
 .addBtn {
@@ -28,7 +28,7 @@
     padding: 10px;
     border-radius: 25px;
     border-bottom: 18px solid rgba(108, 240, 163, 0.678);
-
+    cursor: pointer;
     justify-content: center;
     display: block;
     bottom: -10px;
@@ -36,8 +36,7 @@
     transition: all 0.5s ease;
 }
 
-.addBtn:hover,
-.addBtn:focus {
+.addBtn:hover {
     transform: scale(1.15);
     background-color: rgb(43, 192, 105);
     color: white;

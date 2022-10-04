@@ -33,7 +33,6 @@ nav {
 
 .navLinkList {
     display: flex;
-
 }
 
 .linkItem {
@@ -69,5 +68,12 @@ nav {
     color: white;
     background-color: transparent;
     border: 1px solid white;
-
+    cursor: pointer;
+    transition: all 0.5s ease;
+    
+}
+.logoutBtn:hover{
+    transform: scale(1.15);
+    transition: all 0.5s ease;
+    
 }

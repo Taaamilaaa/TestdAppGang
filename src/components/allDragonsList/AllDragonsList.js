@@ -47,7 +47,7 @@ export function AllDragonsList({ dragonReciving }) {
             const newDragRef = push(dragonsListRef);
 
             set(newDragRef, { data });
-            Notify.success(`${data.name} добавлен в избранные`, {
+            Notify.success(`${data.data.name} добавлен в избранные`, {
                 timeout: 1500,
             });
         } else if (collection.length !== 0) {
@@ -56,7 +56,7 @@ export function AllDragonsList({ dragonReciving }) {
                     const newDragRef = push(dragonsListRef);
 
                     set(newDragRef, { data });
-                    Notify.success(`${data.name} добавлен в избранные`, {
+                    Notify.success(`${data.data.name} добавлен в избранные`, {
                         timeout: 1500,
                     });
                 }

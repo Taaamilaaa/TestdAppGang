@@ -17,7 +17,7 @@ export function Description({ name, link, additionParam }) {
                 })}
             </ul>
 
-            <a href={link} className={styles.link}>
+            <a href={link} className={styles.link} target = 'blank'>
                 more about {name}
             </a>
         </div>
