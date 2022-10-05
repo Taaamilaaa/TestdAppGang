@@ -47,7 +47,7 @@ export function AllDragonsList({ dragonReciving }) {
             const newDragRef = push(dragonsListRef);
 
             set(newDragRef, { data });
-            Notify.success(`${data.data.name} добавлен в избранные`, {
+            Notify.success(`${data.data.name} added to favorites`, {
                 timeout: 1500,
             });
         } else if (collection.length !== 0) {
@@ -56,7 +56,7 @@ export function AllDragonsList({ dragonReciving }) {
                     const newDragRef = push(dragonsListRef);
 
                     set(newDragRef, { data });
-                    Notify.success(`${data.data.name} добавлен в избранные`, {
+                    Notify.success(`${data.data.name} added to favorites`, {
                         timeout: 1500,
                     });
                 }
@@ -75,12 +75,10 @@ export function AllDragonsList({ dragonReciving }) {
                 const exist = collection.find(el => el.data.data.id === resp.id);
 
                 if (exist) {
-                    Notify.info(`${resp.name} уже был добавлен ранее`, {
+                    Notify.info(`${resp.name} has already been added before`, {
                         timeout: 1500,
                     });
                 } else if (!exist) {
-                    console.log('!exist');
-
                     addDragonInDB({ data: resp });
                     getCollection();
 

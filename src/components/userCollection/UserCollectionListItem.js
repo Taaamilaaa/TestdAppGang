@@ -59,7 +59,7 @@ export function UserCollectionListItem({ data }) {
                                 updateCollection(key);
                                 getCollection();
                                 Notify.success(
-                                    `${collection[key].data.data.name} удален из избранные`,
+                                    `${collection[key].data.data.name} removed from favorites`,
                                     {
                                         timeout: 1500,
                                     }
