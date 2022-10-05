@@ -1,11 +1,12 @@
-import { Outlet} from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { Outlet } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { removeUser } from 'store/userSlice';
 import { useAuth } from 'hooks/useAuth';
 import { CustomLink } from 'components/comon/CustomLink';
 import styles from './Layout.module.css';
 
 export function Layout() {
+    const user = useSelector(state => state.user);
     const { isAuth } = useAuth();
     const dispatch = useDispatch();
 
@@ -23,24 +24,28 @@ export function Layout() {
                                 </li>
 
                                 <li className={styles.linkItem}>
-                                    <CustomLink  to="all">
+                                    <CustomLink to="all">
                                         <h3>MORE</h3>
                                     </CustomLink>
                                 </li>
                                 <li className={styles.linkItem}>
-                                    <CustomLink  to="collection">
+                                    <CustomLink to="collection">
                                         <h3>FAVORITES</h3>
                                     </CustomLink>
                                 </li>
                             </ul>
                         </nav>
-                        <button
-                            className={styles.logoutBtn}
-                            onClick={() => dispatch(removeUser())}
-                            type="button"
-                        >
-                            Log out
-                        </button>
+                        <div className={styles.userMenu}>
+                            
+                            <button
+                                className={styles.logoutBtn}
+                                onClick={() => dispatch(removeUser())}
+                                type="button"
+                            >
+                                Log out
+                            </button>
+                            <h4 className={styles.userEmail}>{user.email}</h4>
+                        </div>
                     </div>
                 )}
 

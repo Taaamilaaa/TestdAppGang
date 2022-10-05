@@ -10,24 +10,26 @@ function LoginPage() {
     const { isAuth } = useAuth();
     const dispatch = useDispatch();
 
-    const handleLogin = (e, name, email, password) => {
+    const handleLogin = (e, email, password) => {
         e.preventDefault();
 
         const auth = getAuth();
+
         signInWithEmailAndPassword(auth, email, password)
             .then(userCredential => {
-                const user = userCredential.user;
-                dispatch(
-                    setUser({
-                        email: user.email,
-                        token: user.accessToken,
-                        id: user.uid,
-                    })
-                );
-                document.querySelectorAll('input').forEach(el => (el.value = ''));
+                const user = {
+                    email: userCredential.user.email,
+                    token: userCredential.user.accessToken,
+                    id: userCredential.user.uid,
+                };
+                dispatch(setUser(user));
+                Notify.success('Login is successful!!!');
             })
             .catch(error => {
+                const errorCode = error.code;
                 const errorMessage = error.message;
+                console.log(errorMessage);
+                console.log(errorCode);
                 Notify.failure(`${errorMessage}`);
             });
     };

@@ -23,5 +23,9 @@
         margin-top: 30px;
         margin-bottom: 30px;
     }
+        .collectionSliderContainer {
+        margin-left: 0;
+        margin-right: 0;
+        }
 
 }

@@ -1,9 +1,11 @@
+import { useLocation } from 'react-router-dom';
 import styles from './Description.module.css';
 
 export function Description({ name, link, additionParam }) {
+    const location = useLocation();
     return (
         <div className={styles.optionsContainer}>
-            <h3>Additional options:</h3>
+            {location.pathname !== '/collection' && <h3>Additional options:</h3>}
 
             <ul className={styles.descrList}>
                 {additionParam.map(el => {
@@ -16,10 +18,11 @@ export function Description({ name, link, additionParam }) {
                     );
                 })}
             </ul>
-
-            <a href={link} className={styles.link} target = 'blank'>
-                more about {name}
-            </a>
+            {location.pathname !== '/collection' && (
+                <a href={link} className={styles.link} target="blank">
+                    more about {name}
+                </a>
+            )}
         </div>
     );
 }
